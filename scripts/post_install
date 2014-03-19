@@ -1,0 +1,8 @@
+#! /bin/bash -e
+
+user=`who | awk {'print $1'}`
+
+cp /opt/rgcopy/copy_with_rgcopy /home/$user/.gnome2/nautilus-scripts
+echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.gnome2\\snautilus-scripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/$user/.gnome2/accels/nautilus
+su $user
+nautilus -q
