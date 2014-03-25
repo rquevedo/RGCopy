@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=RGCopy
+#Exec=python copy_with_rgcopy.py
+Icon=./gui/icons/play.png
+#Terminal=false
+#Type=Application
+#StartupNotify=true
+#OnlyShowIn=GNOME;Unity;
+#Categories=GNOME;GTK;Utility;Core;

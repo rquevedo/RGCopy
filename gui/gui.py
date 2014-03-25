@@ -29,10 +29,11 @@ class Interface():
 			column.set_resizable(True)
 			return column
 
-		listStore = Gtk.ListStore(str,str,str)
+		listStore = Gtk.ListStore(str,str,str,str)
 		self.listStore = listStore		
 		self.file_list.set_model(self.listStore)
 
-		self.file_list.append_column(column('File',Gtk.CellRendererText(),"text",0,335))
+		self.file_list.append_column(column('File',Gtk.CellRendererText(),"text",0,360))
 		self.file_list.append_column(column('Size',Gtk.CellRendererText(),"text",1,75))
 		self.file_list.append_column(column('Status',Gtk.CellRendererText(),"text",2,60))
+		self.file_list.append_column(column('Source Folder',Gtk.CellRendererText(),"text",3,400))

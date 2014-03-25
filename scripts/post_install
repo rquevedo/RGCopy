@@ -1,8 +1,38 @@
 #! /bin/bash -e
 
-user=`who | awk {'print $1'}`
+user=`who | grep tty | awk {'print $1'}`
 
-cp /opt/rgcopy/copy_with_rgcopy /home/$user/.gnome2/nautilus-scripts
-echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.gnome2\\snautilus-scripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/$user/.gnome2/accels/nautilus
-su $user
-nautilus -q
+chmod -R 775 /opt/rgcopy/
+chown -R $user /opt/rgcopy/
+
+cp /opt/rgcopy/copy_with_rgcopy /home/$user/.local/share/nautilus/scripts
+
+echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.local\\sshare\\snautilus\\sscripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/$user/.config/nautilus/accels
+
+echo '(gtk_accel_path "<Actions>/DirViewActions/Paste" "")' >> /home/$user/.config/nautilus/accels
+
+chmod  775  /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
+chown  $user /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
+#nautilus -q
+# from os.path import join
+# from gi.repository import GObject, Nautilus
+
+# class Acme(GObject.GObject, Nautilus.MenuProvider):
+#     def __init__(self):
+#         pass
+
+#     def new_empty_file(self, menu, folder):
+#         with open(join(folder.get_uri().replace("file://", ""), "new_file"), 'w') as f:
+#             f.write('')
+#         return
+
+#     def get_background_items(self, window, current_folder):
+#         AcmeMenuItem = Nautilus.MenuItem(
+#             name="Acme::NewEmptyFile",
+#             label="New empty file",
+#             tip="New empty file"
+#         )
+
+#         AcmeMenuItem.connect('activate', self.new_empty_file, current_folder)
+
+#         return [AcmeMenuItem]
