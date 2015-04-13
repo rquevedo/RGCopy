@@ -15,7 +15,7 @@ def enqueue_output(out, queue):
         queue.put(line)
     out.close()#rsync -Pha /media/Datos/Entretenimiento/Peliculas/Unknown.wmv  /home/reisy/Desktop/  1>&2
 
-p = Popen(['/usr/bin/rsync','-Pha','/home/reisy/Videos/nuevos/El Club de la Comedia 1x01.avi','/home/reisy/Desktop/','1>&2'], bufsize=0, stdout=PIPE)
+p = Popen(['/usr/bin/rsync', '-Pha', '/home/reisy/Videos/nuevos/El Club de la Comedia 1x01.avi', '/home/reisy/Desktop/', '1>&2'], bufsize=0, stdout=PIPE)
 q = Queue()
 t = Thread(target=enqueue_output, args=(p.stdout, q))
 t.daemon = True # thread dies with the program

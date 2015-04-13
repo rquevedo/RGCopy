@@ -202,22 +202,24 @@
         </child>
         <child>
           <object class="GtkLabel" id="lbl_single_file_eta">
-            <property name="width_request">100</property>
+            <property name="width_request">200</property>
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
             <property name="margin_left">5</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes">ETA</property>
           </object>
           <packing>
-            <property name="x">380</property>
-            <property name="y">28</property>
+            <property name="x">280</property>
+            <property name="y">27</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="lbl_total_file_count">
-            <property name="width_request">100</property>
+            <property name="width_request">200</property>
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -227,12 +229,12 @@
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">28</property>
+            <property name="y">27</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="lbl_total_files_eta">
-            <property name="width_request">100</property>
+            <property name="width_request">200</property>
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -241,13 +243,13 @@
             <property name="label" translatable="yes">ETA</property>
           </object>
           <packing>
-            <property name="x">380</property>
-            <property name="y">80</property>
+            <property name="x">280</property>
+            <property name="y">79</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="lbl_file_size">
-            <property name="width_request">100</property>
+            <property name="width_request">200</property>
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -257,7 +259,7 @@
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">80</property>
+            <property name="y">79</property>
           </packing>
         </child>
       </object>

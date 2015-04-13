@@ -9,32 +9,45 @@ from threading import Thread
 from gi.repository import GObject
 import signal
 
-SIGNALS = {0:signal.SIGSTOP,1:signal.SIGCONT}
+SIGNALS = {0:signal.SIGSTOP, 1:signal.SIGCONT}
 class Process:
 
-	def __init__(self,copy):
+	def __init__(self, copy):
 		self.copy = copy
 		self.main = self.copy.main
 		self.process = None
 		self.error = ''
 		self.start_time = 0
+		self.after_end_action = []
+		if self.copy.action == 'cut':
+			self.after_end_action.append(['rm', '-rf', self.copy.dir])
 
 	def get_pid(self):
 		return self.process.pid
 
-	def readoutline(self,source, condition):
+	def done(self):
+		if self.process.poll() != None:
+			if self.after_end_action:
+				for action in self.after_end_action:
+					print 'arranco'
+					subprocess.Popen(action, bufsize= -1)
+					print 'termino'
+				return True
+			return True
+		return False
+	def readoutline(self, source, condition):
 		fcntl.fcntl(source, fcntl.F_SETFL, os.O_NONBLOCK)
 		output = ''
 		try:
 			output += self.process.stdout.read()
 		except Exception, e:
 			pass
-		split_values,file_list = self.get_split_values(output)
+		split_values, file_list = self.get_split_values(output)
 		self.update_copy(split_values)
 		self.main.update_ui(file_list=file_list)
 		return True
 
-	def get_split_values(self,output):
+	def get_split_values(self, output):
 		update_ui_values = {}
 		file_list = []
 		values = [i for i in output.split(' ') if i != '\r' and i != '']
@@ -47,13 +60,13 @@ class Process:
 			update_ui_values['copied_size'] = int(values[0])
 			update_ui_values['speed_rate'] = values[2]
 			update_ui_values['ETA'] = values[3]
-		return update_ui_values,file_list
+		return update_ui_values, file_list
 
-	def update_copy(self,values):
+	def update_copy(self, values):
 		for key in values.keys():
 			self.copy[key] = values[key]
 
-	def pause_resume(self,status):
+	def pause_resume(self, status):
 		os.kill(self.get_pid(), SIGNALS[status])
 
 	def kill(self):
@@ -62,10 +75,10 @@ class Process:
 
 	def start(self):
 
-		cmd = ['rsync','-Pa']
+		cmd = ['rsync', '-Pa']
 		cmd.append(self.copy.dir)
 		cmd.append(self.copy.dest)
-		self.process = subprocess.Popen(cmd, bufsize=-1, stdout=subprocess.PIPE)#, stderr=subprocess.PIPE
+		self.process = subprocess.Popen(cmd, bufsize= -1, stdout=subprocess.PIPE)#, stderr=subprocess.PIPE
 		GObject.io_add_watch(self.process.stdout, GObject.IO_IN, self.readoutline)
 
 

@@ -8,7 +8,7 @@ class Interface():
 	def __init__(self):
 
 		self.builder = Gtk.Builder()
-		self.builder.add_from_file(os.path.join(directory,'rgcopy.glade'))
+		self.builder.add_from_file(os.path.join(directory, 'rgcopy.glade'))
 		self.build_treeview()
 
 	def __getattr__(self, name):
@@ -18,7 +18,7 @@ class Interface():
 	def build_treeview(self):
 
 
-		def column(name,cell,attribute,value,width):		
+		def column(name, cell, attribute, value, width):		
 			column = Gtk.TreeViewColumn(name)
 			column.pack_start(cell, False)
 			column.add_attribute(cell, attribute, value)
@@ -29,11 +29,11 @@ class Interface():
 			column.set_resizable(True)
 			return column
 
-		listStore = Gtk.ListStore(str,str,str,str)
+		listStore = Gtk.ListStore(str, str, str, str)
 		self.listStore = listStore		
 		self.file_list.set_model(self.listStore)
 
-		self.file_list.append_column(column('File',Gtk.CellRendererText(),"text",0,360))
-		self.file_list.append_column(column('Size',Gtk.CellRendererText(),"text",1,75))
-		self.file_list.append_column(column('Status',Gtk.CellRendererText(),"text",2,60))
-		self.file_list.append_column(column('Source Folder',Gtk.CellRendererText(),"text",3,400))
+		self.file_list.append_column(column('File', Gtk.CellRendererText(), "text", 0, 360))
+		self.file_list.append_column(column('Size', Gtk.CellRendererText(), "text", 1, 75))
+		self.file_list.append_column(column('Status', Gtk.CellRendererText(), "text", 2, 60))
+		self.file_list.append_column(column('Source Folder', Gtk.CellRendererText(), "text", 3, 400))

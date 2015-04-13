@@ -11,7 +11,7 @@ import gobject
 
 class Copy():
 
-	def __init__(self,direction):
+	def __init__(self, direction):
 		self.dir = direction
 		self.dest = None
 		self.porcent = 0
