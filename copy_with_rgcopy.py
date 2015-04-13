@@ -5,8 +5,8 @@
 import imp
 from threading import Thread
 
-#rgcopy = imp.load_source('rgcopy', '/opt/rgcopy/rgcopy.py')
-rgcopy = imp.load_source('rgcopy', '/media/reisy/home/reisy/Documents/desarrollo_propio/RGCopy/rgcopy.py')
+rgcopy = imp.load_source('rgcopy', '/opt/RGCopy/rgcopy.py')
+#rgcopy = imp.load_source('rgcopy', '/media/reisy/home/reisy/Documents/desarrollo_propio/RGCopy/rgcopy.py')
 
 
 main = rgcopy.RGCopy()

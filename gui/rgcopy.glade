@@ -117,11 +117,13 @@
                 <child>
                   <object class="GtkButton" id="btn_more">
                     <property name="label" translatable="yes">More</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="margin_left">5</property>
+                    <property name="use_action_appearance">False</property>
                     <signal name="clicked" handler="on_btn_more_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -133,11 +135,13 @@
                 <child>
                   <object class="GtkButton" id="btn_close">
                     <property name="label" translatable="yes">Close</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="margin_right">5</property>
+                    <property name="use_action_appearance">False</property>
                     <signal name="clicked" handler="on_btn_close_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -150,11 +154,13 @@
                 <child>
                   <object class="GtkButton" id="btn_pause_resume">
                     <property name="label" translatable="yes">Pause</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="margin_right">10</property>
+                    <property name="use_action_appearance">False</property>
                     <signal name="clicked" handler="on_btn_pause_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -214,7 +220,7 @@
           </object>
           <packing>
             <property name="x">280</property>
-            <property name="y">27</property>
+            <property name="y">30</property>
           </packing>
         </child>
         <child>
@@ -229,7 +235,7 @@
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">27</property>
+            <property name="y">30</property>
           </packing>
         </child>
         <child>
@@ -244,7 +250,7 @@
           </object>
           <packing>
             <property name="x">280</property>
-            <property name="y">79</property>
+            <property name="y">90</property>
           </packing>
         </child>
         <child>
@@ -259,7 +265,7 @@
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">79</property>
+            <property name="y">90</property>
           </packing>
         </child>
       </object>

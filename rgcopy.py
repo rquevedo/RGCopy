@@ -6,7 +6,7 @@ import os
 directory = os.path.dirname(os.path.realpath(__file__))
 
 import imp
-from gi.repository import Gtk , Gdk , GObject, Unity, Dbusmenu, Nautilus
+from gi.repository import Gtk , Gdk , GObject
 copy = imp.load_source('copy', os.path.join(directory, 'commons/copy.py'))
 from copy import Copy, COPY_STATUS_CODE
 cmd_utils = imp.load_source('cmd_utils', os.path.join(directory, 'commons/cmd_utils.py'))
@@ -227,16 +227,6 @@ class RGCopy():
 
 		def maximize(attr1, attr2):
 			self.ui.rgcopy.present()
-		#Setting nautilus launcher properties
-		self.launcher = Unity.LauncherEntry.get_for_desktop_id ("nautilus.desktop")
-		ql = Dbusmenu.Menuitem.new ()
-		item1 = Dbusmenu.Menuitem.new ()
-		item1.property_set (Dbusmenu.MENUITEM_PROP_LABEL, "Show copy dialog")
-		item1.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, True)
-		item1.connect('item-activated', maximize)
-		ql.child_append (item1)
-		self.launcher.set_property("quicklist", ql)
-		#Nautilus context menu
 
 		self.ui.rgcopy.set_title('RGCopy')
 		self.ui.rgcopy.show_all()
@@ -258,7 +248,6 @@ class RGCopy():
 				self.copies[self.active_copy].status = 3
 				if len(self.copies) == (self.active_copy + 1):
 					self.update_ui(True)
-					self.launcher.set_property("urgent", True)
 					Gtk.main_quit()
 				else:
 					self.active_copy += 1
@@ -271,7 +260,6 @@ class RGCopy():
 			self.active_copy = 0
 			self.copies[self.active_copy].status = 1
 			self.copies[self.active_copy].process.start()
-			self.launcher.set_property("progress_visible", True)
 			return True
 
 	def update_ui(self, copy_done=None, file_list=None, copy_paused=False):
@@ -342,8 +330,6 @@ class RGCopy():
 		self.ui.lbl_single_file_eta.set_text(copy.ETA)
 		self.ui.lbl_total_file_count.set_text('%s of %s' % (self.active_dir_copy + 1, len(self.file_list)))
 		self.ui.lbl_total_files_eta.set_text(get_total_eta(copy.speed_rate))
-		#Launcher
-		self.launcher.set_property("progress", float(fraction) / 100)
 
 
 	def format_string(self, string):
