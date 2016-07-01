@@ -6,7 +6,7 @@ import os
 directory = os.path.dirname(os.path.realpath(__file__))
 
 import imp
-from gi.repository import Gtk , Gdk , GObject, Unity, Dbusmenu, Nautilus
+from gi.repository import Gtk , Gdk , GObject,AppIndicator3
 copy = imp.load_source('copy', os.path.join(directory, 'commons/copy.py'))
 from copy import Copy, COPY_STATUS_CODE
 cmd_utils = imp.load_source('cmd_utils', os.path.join(directory, 'commons/cmd_utils.py'))
@@ -20,6 +20,7 @@ import datetime
 
 
 STATUS_CODE = {0:'running', 1:'paused'}
+SHOW_HIDE_TEXT = {True:'Less', False:'More'}
 CONVERSION_RATE = {'b/s':1, 'kB/s':1024, 'MB/s':1048576, 'GB/s':1073741824}
 
 
@@ -31,6 +32,7 @@ class Handler():
 
  	def on_btn_more_clicked(self, *args):
  		self.main.ui.scrolledwindow1.set_visible(not self.main.ui.scrolledwindow1.get_visible())
+ 		self.main.ui.btn_more.set_label(SHOW_HIDE_TEXT[self.main.ui.scrolledwindow1.get_visible()])
 
  	def on_btn_close_clicked(self, button):
  		self.main.copies[self.main.active_copy].process.kill()
@@ -146,7 +148,7 @@ class RGCopy():
 				share_name = path_array[1]
 				file_path = '/'.join(path_array[2:])
 				user = get_login_user()
-				line = urllib.url2pathname('/run/user/%s/gvfs/smb-share:server=%s,share=%s/%s' % (user, server_name, share_name, file_path))
+				line = urllib.url2pathname('/run/user/%s/gvfs/smb-share:server=%s,share=%s/%s' % (user,server_name,share_name,file_path))
 			elif line.startswith('sftp://'):
 				url = line.split('sftp://')[1]
 				path_array = url.split('/')
@@ -157,9 +159,10 @@ class RGCopy():
 				if len(split_server_name) != 1:
 					user_name = split_server_name[0]
 					server_name = split_server_name[1]
-					line = urllib.url2pathname('/run/user/%s/gvfs/sftp:host=%s,user=%s/%s' % (user, server_name, user_name, file_path))
+					line = urllib.url2pathname('/run/user/%s/gvfs/sftp:host=%s,user=%s/%s' % (user,server_name,user_name,file_path))
 				else:
-					line = urllib.url2pathname('/run/user/%s/gvfs/sftp:host=%s/%s' % (user, server_name, file_path))
+					line = urllib.url2pathname('/run/user/%s/gvfs/sftp:host=%s/%s' % (user,server_name,file_path))
+
 
 			if os.path.exists(line):
 				lts.append(line)
@@ -215,34 +218,34 @@ class RGCopy():
 			    elif uri_bits[0] == "trash":
 			        dir_to_open = home_dir + '/.Trash'
 		except Exception, e:
-			#return home_dir
-			return '/media/reisy/home/reisy/Documents/desarrollo_propio/RGCopy/test'
-		print dir_to_open
+			return home_dir
+		#return '/home/reisy/Escritorio/RGCopy_prueba'
 		return dir_to_open
-
-		# def paste(self, button, filebutton):
         
 
 	def show(self):
 
 		def maximize(attr1, attr2):
 			self.ui.rgcopy.present()
-		#Setting nautilus launcher properties
-		self.launcher = Unity.LauncherEntry.get_for_desktop_id ("nautilus.desktop")
-		ql = Dbusmenu.Menuitem.new ()
-		item1 = Dbusmenu.Menuitem.new ()
-		item1.property_set (Dbusmenu.MENUITEM_PROP_LABEL, "Show copy dialog")
-		item1.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, True)
-		item1.connect('item-activated', maximize)
-		ql.child_append (item1)
-		self.launcher.set_property("quicklist", ql)
-		#Nautilus context menu
+
+		APPNAME = "RGCopy"
+		ICON = 'onboard-mono'
+		
+		self.ai = AppIndicator3.Indicator.new(APPNAME, ICON, AppIndicator3.IndicatorCategory.APPLICATION_STATUS)		
+		self.ai.set_menu(self.ui.tray_menu)
+
+		self.ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+		self.ai.set_label('test1', '')
 
 		self.ui.rgcopy.set_title('RGCopy')
 		self.ui.rgcopy.show_all()
 		self.initialize()
 		GObject.threads_init()
 		Gtk.main()
+
+	def on_show_copy_activate(self):
+		self.ui.rgcopy.set_visible(True)
+		self.ui.rgcopy.show_all()
 
 	def run_process(self):
 		self.copies = self.get_copies_list()
@@ -258,7 +261,6 @@ class RGCopy():
 				self.copies[self.active_copy].status = 3
 				if len(self.copies) == (self.active_copy + 1):
 					self.update_ui(True)
-					self.launcher.set_property("urgent", True)
 					Gtk.main_quit()
 				else:
 					self.active_copy += 1
@@ -271,7 +273,6 @@ class RGCopy():
 			self.active_copy = 0
 			self.copies[self.active_copy].status = 1
 			self.copies[self.active_copy].process.start()
-			self.launcher.set_property("progress_visible", True)
 			return True
 
 	def update_ui(self, copy_done=None, file_list=None, copy_paused=False):
@@ -342,8 +343,7 @@ class RGCopy():
 		self.ui.lbl_single_file_eta.set_text(copy.ETA)
 		self.ui.lbl_total_file_count.set_text('%s of %s' % (self.active_dir_copy + 1, len(self.file_list)))
 		self.ui.lbl_total_files_eta.set_text(get_total_eta(copy.speed_rate))
-		#Launcher
-		self.launcher.set_property("progress", float(fraction) / 100)
+
 
 
 	def format_string(self, string):

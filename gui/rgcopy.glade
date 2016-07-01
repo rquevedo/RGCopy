@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAction" id="action1"/>
   <object class="GtkWindow" id="rgcopy">
     <property name="width_request">500</property>
@@ -117,6 +118,7 @@
                 <child>
                   <object class="GtkButton" id="btn_more">
                     <property name="label" translatable="yes">More</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -133,6 +135,7 @@
                 <child>
                   <object class="GtkButton" id="btn_close">
                     <property name="label" translatable="yes">Close</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -150,6 +153,7 @@
                 <child>
                   <object class="GtkButton" id="btn_pause_resume">
                     <property name="label" translatable="yes">Pause</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="width_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -213,8 +217,8 @@
             <property name="label" translatable="yes">ETA</property>
           </object>
           <packing>
-            <property name="x">280</property>
-            <property name="y">27</property>
+            <property name="x">285</property>
+            <property name="y">25</property>
           </packing>
         </child>
         <child>
@@ -228,8 +232,8 @@
             <property name="label" translatable="yes">0 of 0</property>
           </object>
           <packing>
-            <property name="x">10</property>
-            <property name="y">27</property>
+            <property name="x">5</property>
+            <property name="y">25</property>
           </packing>
         </child>
         <child>
@@ -243,8 +247,8 @@
             <property name="label" translatable="yes">ETA</property>
           </object>
           <packing>
-            <property name="x">280</property>
-            <property name="y">79</property>
+            <property name="x">285</property>
+            <property name="y">80</property>
           </packing>
         </child>
         <child>
@@ -258,10 +262,24 @@
             <property name="label" translatable="yes">0 of 0</property>
           </object>
           <packing>
-            <property name="x">10</property>
-            <property name="y">79</property>
+            <property name="x">5</property>
+            <property name="y">80</property>
           </packing>
         </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkMenu" id="tray_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="show_copy">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Mostrar copia</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_show_copy_activate" swapped="no"/>
       </object>
     </child>
   </object>

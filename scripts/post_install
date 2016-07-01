@@ -1,16 +1,20 @@
 #! /bin/bash -e
 
-user=`who | grep tty | awk {'print $1'}`
+user=`who | awk {'print $1'}`
 
-chmod -R 775 /opt/rgcopy/
-chown -R $user /opt/rgcopy/
+chmod -R 775 /opt/RGCopy/
+chown -R $user /opt/RGCopy/
 
-cp /opt/rgcopy/copy_with_rgcopy /home/$user/.local/share/nautilus/scripts
+cp /opt/RGCopy/copy_with_rgcopy /home/$user/.local/share/nautilus/scripts
+#echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.gnome2\\snautilus-scripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/$user/.gnome2/accels/nautilus
+echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.local\\sshare\\snautilus\\sscripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/reisy/.config/nautilus/accels
+echo '(gtk_accel_path "<Actions>/DirViewActions/Paste" "")' >> /home/reisy/.config/nautilus/accels
 
-echo '(gtk_accel_path "<Actions>/ScriptsGroup/script_file:\\s\\s\\shome\\s'$user'\\s.local\\sshare\\snautilus\\sscripts\\scopy_with_rgcopy" "<Primary>v")' >> /home/$user/.config/nautilus/accels
+chmod 777 /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
+chown $user /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
 
-echo '(gtk_accel_path "<Actions>/DirViewActions/Paste" "")' >> /home/$user/.config/nautilus/accels
+su $user
+nautilus -q
 
-chmod  775  /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
-chown  $user /home/$user/.local/share/nautilus/scripts/copy_with_rgcopy
-#nautilus -q
+#apt-get install gvfs-fuse,gir1.2-appindicator3 Esto lo vamos a poner como dependencia
+adduser $user fuse
