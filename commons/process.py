@@ -29,9 +29,7 @@ class Process:
 		if self.process.poll() != None:
 			if self.after_end_action:
 				for action in self.after_end_action:
-					print 'arranco'
 					subprocess.Popen(action, bufsize= -1)
-					print 'termino'
 				return True
 			return True
 		return False
@@ -57,7 +55,7 @@ class Process:
 		file_list = [i for i in file_list if not i.startswith(' ') and i != '' and not i.startswith('sending incremental file list') and i.find('speedup is') == -1 and i.find('bytes/sec') == -1 and not i.endswith('/')]
 		if len(values) == 4 and values[1].endswith('%'):
 			update_ui_values['percent'] = int(values[1][0:-1])
-			update_ui_values['copied_size'] = int(values[0])
+			update_ui_values['copied_size'] = int(''.join(values[0].split(',')))
 			update_ui_values['speed_rate'] = values[2]
 			update_ui_values['ETA'] = values[3]
 		return update_ui_values, file_list
