@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 #
 # main.py
+
 import os
 directory = os.path.dirname(os.path.realpath(__file__))
 
 import imp
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('AppIndicator3', '0.1')
 from gi.repository import Gtk , Gdk , GObject,AppIndicator3
 copy = imp.load_source('copy', os.path.join(directory, 'commons/copy.py'))
 from copy import Copy, COPY_STATUS_CODE
