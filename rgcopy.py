@@ -8,15 +8,11 @@ directory = os.path.dirname(os.path.realpath(__file__))
 
 import imp
 import gi
-gi.require_version('Gtk', '3.0')
-gi.require_version('AppIndicator3', '0.1')
-from gi.repository import Gtk , Gdk , GObject,AppIndicator3
-copy = imp.load_source('copy', os.path.join(directory, 'commons/copy.py'))
-from copy import Copy, COPY_STATUS_CODE
-cmd_utils = imp.load_source('cmd_utils', os.path.join(directory, 'commons/cmd_utils.py'))
-from cmd_utils import get_login_user
-gui = imp.load_source('gui', os.path.join(directory, 'gui/gui.py'))
-from gui import Interface as ui
+#gi.require_version('Gtk', '3.0')
+#gi.require_version('AppIndicator3', '0.1')
+from gi.repository import Gtk , Gdk , GObject, AppIndicator3, Unity
+from commons.copy import Copy, COPY_STATUS_CODE
+from gui.gui import Interface as ui
 import gettext , locale
 import urllib, urlparse
 import datetime
@@ -73,7 +69,7 @@ class RGCopy():
 		self.ui.builder.connect_signals(Handler(self))
 		self.copies_size = 0
 		self.partial_copies_size = 0
-		self.lines, self.action = self.get_lines_list()
+		self.lines, self.action = [], 'not_set'#self.get_lines_list()
 		self.status = 0
 		self.cont = 0
 		self.show_state = False
@@ -233,18 +229,18 @@ class RGCopy():
 			self.ui.rgcopy.present()
 
 		APPNAME = "RGCopy"
-		ICON = 'onboard-mono'
+		ICON = '/opt/RGCopy/icons/32x32/stallion.png'
 		
 		self.ai = AppIndicator3.Indicator.new(APPNAME, ICON, AppIndicator3.IndicatorCategory.APPLICATION_STATUS)		
 		self.ai.set_menu(self.ui.tray_menu)
 
-		self.ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-		self.ai.set_label('test1', '')
+		#self.ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+		self.launcher = Unity.LauncherEntry.get_for_desktop_id ("RGCopy.desktop")
 
 		self.ui.rgcopy.set_title('RGCopy')
 		self.ui.rgcopy.show_all()
 		self.initialize()
-		GObject.threads_init()
+		#GObject.threads_init()
 		Gtk.main()
 
 	def on_show_copy_activate(self):
@@ -355,3 +351,6 @@ class RGCopy():
 
 
 
+if __name__ == '__main__': 
+	main = RGCopy()
+	main.show()
